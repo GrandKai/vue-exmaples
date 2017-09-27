@@ -8,9 +8,18 @@
 <body>
 <div id="app">
 
+  文本插值：
+  <p>文本插值：{{ message | toUpperCase }}</p>
+  <hr/>
+  表达式：
+  <p>表达式 {{cents}}/100 = {{cents/100}}</p>
+  <p>表达式的值可以是{{splits}}，split(',')的运算结果：{{splits.split(',')}}</p>
+  <p>三目运算符 true ? 1 : 0, 结果：{{true ? 1 : 0}}</p>
 
-  <p>{{ message }}</p>
-  <div v-html="message1"></div>
+  <hr>
+  指令：
+  1：v-html
+  <div v-html="logo"></div>
 
 
 </div>
@@ -20,7 +29,10 @@
   new Vue({
     el: '#app',
     data: {
-      message: '文本插值',
+      cents: 200,
+      splits: '200,100',
+      message: 'aa',
+      logo: '<h1>ddddddddddd</h1>',
       message1: '<h1>hello vue.js</h1>'
     }
   });
