@@ -4,38 +4,110 @@
   <meta charset="utf-8">
   <title>vue</title>
   <script type="text/javascript" src="vue.min.js"></script>
+
+
+  <style>
+    .class1{
+      background: #444;
+      color: #eee;
+    }
+  </style>
 </head>
 <body>
 <div id="app">
 
-  文本插值：
+  1. 文本插值：\{{要插入的文本}\} - 双大括号
   <p>文本插值：{{ message | toUpperCase }}</p>
   <hr/>
-  表达式：
+
+  2. 表达式：
   <p>表达式 {{cents}}/100 = {{cents/100}}</p>
   <p>表达式的值可以是{{splits}}，split(',')的运算结果：{{splits.split(',')}}</p>
+  <p>{{message}} 反向打印 split('').reverse().join('')： {{ message.split('').reverse().join('') }}</p>
   <p>三目运算符 true ? 1 : 0, 结果：{{true ? 1 : 0}}</p>
+  <hr/>
+
+  3. 属性： v-bind:属性名称='属性值'
+  <br><label for="r1">修改颜色</label><input type="checkbox" v-model="class1" id="r1"/>
+  <br/>
+  <div v-bind:class="{'class1': class1}">
+    directive v-bind:class
+  </div>
+  <div v-bind:id="'list-' + id">菜鸟教程</div>
+
+  <pre><a v-bind:href="url">菜鸟教程</a></pre>
 
   <hr>
   指令：
   1：v-html
   <div v-html="logo"></div>
+  2：v-model 双向绑定
+  <br/>
+  <label for="vmodel">{{message}}</label>
+  <input v-model="message" id="vmodel">
+  <br/>
+  3：v-if
+  <p v-if="seen">现在你看到我了</p>
+  4：v-on，用于监听 dom 事件
+  例子：v-on:click.prevent,<br>
+  .prevent 修饰符告诉 v-on 指令对于触发的事件调用 event.preventDefault();
 
+  <br/>
+  <button v-on:click.prevent="reverseMessage">reverseMessage</button>
+
+  <br/>
+  5. filters 过滤器，类似于 Linux 中的管道。 message | filterA | filterB，过滤器可以串联
+  <br/>
+  过滤器是 JavaScript 函数，因此可以接受参数<br/>
+  message 是第一个参数，'arg1' 作为第二个参数， arg2 作为第三个参数。
+  例子： {{message | capitalize("arg1", cents)}}
 
 </div>
 
 <!-- built files will be auto injected -->
 <script type="text/javascript">
-  new Vue({
+  var data =  {
+    cents: 200,
+    splits: '200,100',
+    message: 'abcd',
+    logo: '<h1>ddddddddddd</h1>',
+    message1: '<h1>hello vue.js</h1>',
+    id: 1,
+    class1: false,
+    seen: true,
+    url: 'http://www.baidu.com'
+  };
+  var vm = new Vue({
     el: '#app',
-    data: {
-      cents: 200,
-      splits: '200,100',
-      message: 'aa',
-      logo: '<h1>ddddddddddd</h1>',
-      message1: '<h1>hello vue.js</h1>'
+    data: data,
+    // 定义方法
+    methods: {
+      doSomething: function () {
+        alert(1);
+      },
+      reverseMessage: function () {
+        this.message = this.message.split('').reverse().join('');
+      }
+    },
+    // 定义过滤器
+    filters: {
+      capitalize: function (value, arg1, agr2) {
+        if (!value) return '';
+        value = value.toString();
+        return value.charAt(0).toUpperCase() + value.slice(1) + arg1 + agr2;
+      }
     }
   });
+
+  console.log(vm.$data);
+  console.log(vm.$data === data);
+  console.log(vm.$el === document.getElementById("app"));
+  vm.$watch("message", function (newVal, OldVal) {
+    // Vue 实例暴露了一些有用的实例属性与方法。这些属性与方法都有前缀 $
+    console.log("$watch 是一个实例方法，这个函数在 `vm.message` 改变后调用");
+    console.log("新值" + newVal);
+    console.log("旧值" + OldVal);
+  })
 </script>
 </body>
 </html>
