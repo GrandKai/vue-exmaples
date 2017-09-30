@@ -61,7 +61,47 @@
   过滤器是 JavaScript 函数，因此可以接受参数<br/>
   message 是第一个参数，'arg1' 作为第二个参数， arg2 作为第三个参数。
   例子： {{message | capitalize("arg1", cents)}}
+  <br/>
 
+
+  6. v-if
+  <div v-if="num > 0.5">
+    随机数 {{num }} 大于 0.5
+  </div>
+
+  <div v-else>
+    随机数 {{num }} 小于等于 0.5
+  </div>
+  <br>
+
+  7. v-for
+  <br>
+   1) 普通字符串数组，嵌套了模板
+  <div>
+    <ol>
+      <template v-for="item in ary">
+        <li>{{item}}</li>
+        <li>--------------------</li>
+      </template>
+    </ol>
+  </div>
+   2）迭代对象，(value, key, index) in object
+  <div>
+    <ul>
+      <li v-for="(value, key, index) in object">
+        {{ index }}. {{ key }} : {{ value }}
+      </li>
+    </ul>
+  </div>
+
+   3）循环整数
+  <ul>
+    <li v-for="n in 10">
+      {{n}}
+    </li>
+  </ul>
+
+  <p>{{ site }}</p>
 </div>
 
 <!-- built files will be auto injected -->
@@ -75,7 +115,20 @@
     id: 1,
     class1: false,
     seen: true,
-    url: 'http://www.baidu.com'
+    num: Math.random(),
+    ary: [
+      "item1",
+      "item1",
+      "item1"
+    ],
+    object: {
+      name: '菜鸟教程',
+      url: 'http://www.runoob.com',
+      slogan: '学的不仅是技术，更是梦想！'
+    },
+
+    url: 'http://www.google.com',
+    name: '谷歌'
   };
   var vm = new Vue({
     el: '#app',
@@ -96,6 +149,21 @@
         value = value.toString();
         return value.charAt(0).toUpperCase() + value.slice(1) + arg1 + agr2;
       }
+    },
+
+    // 计算属性
+    computed: {
+      site: {
+        get: function () {
+          return this.name + ' ' + this.url
+
+        },
+        set: function (newValue) {
+          var names = newValue.split(' ');
+          this.name = names[0];
+          this.url = names[names.length - 1];
+        }
+      }
     }
   });
 
@@ -107,7 +175,13 @@
     console.log("$watch 是一个实例方法，这个函数在 `vm.message` 改变后调用");
     console.log("新值" + newVal);
     console.log("旧值" + OldVal);
-  })
+  });
+
+  // 调用 setter， vm.name 和 vm.url 也会被对应更新
+  vm.site = '菜鸟教程 http://www.runoob.com';
+  document.write('name: ' + vm.name);
+  document.write('<br>');
+  document.write('url: ' + vm.url);
 </script>
 </body>
 </html>
