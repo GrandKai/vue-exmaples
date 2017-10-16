@@ -102,6 +102,42 @@
   </ul>
 
   <p>{{ site }}</p>
+
+  4）表单
+
+  <br/>
+  单选框
+  <br/>
+  <input type="radio" id="runoob" value="Runoob" v-model="picked">
+  <label for="runoob">Runoob</label>
+  <br>
+  <input type="radio" id="google" value="Google" v-model="picked">
+  <label for="google">Google</label>
+  <br>
+  <input type="radio" id="alibaba" value="Alibaba" v-model="picked">
+  <label for="alibaba">Alibaba</label>
+  <br>
+  <span>选中值为: {{ picked }}</span>
+
+  <br/>
+  <p>多个复选框：</p>
+  <input type="checkbox" id="1" value="Runoob" v-model="checkedNames">
+  <label for="1">Runoob</label>
+  <input type="checkbox" id="2" value="Google" v-model="checkedNames">
+  <label for="2">Google</label>
+  <input type="checkbox" id="3" value="Taobao" v-model="checkedNames">
+  <label for="3">taobao</label>
+  <br>
+  <span>选择的值为: {{ checkedNames }}</span>
+
+  <br/>
+  下拉框：
+  <br/>
+  select
+  <div>
+
+  </div>
+
 </div>
 
 <!-- built files will be auto injected -->
@@ -128,7 +164,9 @@
     },
 
     url: 'http://www.google.com',
-    name: '谷歌'
+    name: '谷歌',
+    picked: 'Google',
+    checkedNames: []
   };
   var vm = new Vue({
     el: '#app',
@@ -178,10 +216,10 @@
   });
 
   // 调用 setter， vm.name 和 vm.url 也会被对应更新
-  vm.site = '菜鸟教程 http://www.runoob.com';
+  /*vm.site = '菜鸟教程 http://www.runoob.com';
   document.write('name: ' + vm.name);
   document.write('<br>');
-  document.write('url: ' + vm.url);
+  document.write('url: ' + vm.url);*/
 </script>
 </body>
 </html>
