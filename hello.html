@@ -133,9 +133,13 @@
   <br/>
   下拉框：
   <br/>
-  select
-  <div>
-
+  <select name="site" id="site" v-model="selected">
+    <option value="">选择一个网站</option>
+    <option value="www.runoob.com">Runoob</option>
+    <option value="www.google.com">Google</option>
+  </select>
+  <div id="output">
+    选择的网站是：{{selected}}
   </div>
 
 </div>
@@ -166,7 +170,8 @@
     url: 'http://www.google.com',
     name: '谷歌',
     picked: 'Google',
-    checkedNames: []
+    checkedNames: [],
+    selected: ""
   };
   var vm = new Vue({
     el: '#app',
