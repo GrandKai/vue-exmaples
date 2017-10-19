@@ -103,6 +103,7 @@
 
   <p>{{ site }}</p>
 
+  <hr>
   4）表单
 
   <br/>
@@ -120,6 +121,12 @@
   <span>选中值为: {{ picked }}</span>
 
   <br/>
+  全选
+  <br/>
+  <input type="checkbox" id="checkbox" v-model="checked" @click="changeAllChecked()">
+  <label for="checkbox">{{checked}}</label>
+
+
   <p>多个复选框：</p>
   <input type="checkbox" id="1" value="Runoob" v-model="checkedNames">
   <label for="1">Runoob</label>
@@ -141,6 +148,14 @@
   <div id="output">
     选择的网站是：{{selected}}
   </div>
+
+  修饰符：<br/>
+  .lazy<br/>
+  <input v-model.lazy="msg">{{msg}}<br/>
+  .number　数字<br/>
+  <input v-model.number="age" type="number">{{age}}<br/>
+  .trim 去除首尾空格<br/>
+  <input v-model.trim="msg1" >{{msg1}}<br/>
 
 </div>
 
@@ -170,8 +185,16 @@
     url: 'http://www.google.com',
     name: '谷歌',
     picked: 'Google',
+    selected: "",
+
     checkedNames: [],
-    selected: ""
+    checkedAttr: [ "Runoob", "Google", "Taobao" ],
+    checked: false,
+
+    msg: "",
+    msg1: "",
+    age: 0
+
   };
   var vm = new Vue({
     el: '#app',
@@ -183,6 +206,23 @@
       },
       reverseMessage: function () {
         this.message = this.message.split('').reverse().join('');
+      },
+      changeAllChecked: function () {
+        console.log('全选：' + this.checked);
+        if (this.checked) {
+          this.checkedNames = this.checkedAttr;
+        } else {
+          this.checkedNames = [];
+        }
+      }
+    },
+    watch: {
+      checkedNames: function () {
+        if (this.checkedNames.length == this.checkedAttr.length) {
+          this.checked = true;
+        } else {
+          this.checked = false;
+        }
       }
     },
     // 定义过滤器
